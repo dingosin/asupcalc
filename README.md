@@ -1,6 +1,4 @@
-Este programa registra em um pequeno banco de dados, uma lista com o nome dos professores, informações mínimas necessárias para se gerar o relatório de acordo com as normas locais,
-
-e gera um calendario em tabela automatizado com suas horas de HTPC, HSP e HE.
+Este programa registra em um pequeno banco de dados, uma lista com o nome dos professores, informações mínimas necessárias para se gerar o relatório de acordo com as normas locais, e gera um calendario em tabela automatizado com suas horas de HTPC, HSP e HE.
 
 Ele permite editar os cadastros pra se adaptar a mudança de horário de professores, e a geração de lotes pode ser específicado que professores deve incluir no lote.
 
