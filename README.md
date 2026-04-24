@@ -1,6 +1,6 @@
 Este programa registra em um pequeno banco de dados, uma lista com o nome dos professores, informações mínimas necessárias para se gerar o relatório de acordo com as normas locais, e gera um calendario em tabela automatizado com suas horas de HTPC, HSP e HE.
 
-Ele permite editar os cadastros pra se adaptar a mudança de horário de professores, e a geração de lotes pode ser específicado que professores deve incluir no lote.
+Ele permite editar os cadastros pra se adaptar a mudança de horário de professores, gerando lotes customizados com tudo ou parcialmente professores de dentro do banco de dados.
 
 Todo mês após o cadastro, quando você precisa imprimir relatórios novos, você consegue gerar apenas informando o período que quer.
 
