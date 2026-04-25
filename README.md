@@ -6,7 +6,10 @@ Todo mês após o cadastro, quando você precisa imprimir relatórios novos, voc
 
 Você precisa ter as váriáveis do python instaladas no computador (pode fazer isso instalando por winget ou abrindo a store da microsoft)
 
-Precisa dar pip install em duas bibliotecas, a streamlit e a docx (pois o programa converte os relatorios em documentos do word.)
+Precisa dar pip install em três bibliotecas caso não as possua:
+streamlit;
+pandas;
+python-docx;
 
 Talvez faça depois uma automatização na instalação do mesmo, não acho que as pessoas vão utilizá-lo tanto assim, ta aí só por demonstração mesmo.
 
