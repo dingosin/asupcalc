@@ -11,6 +11,11 @@ streamlit;
 pandas;
 python-docx;
 
-Talvez faça depois uma automatização na instalação do mesmo, não acho que as pessoas vão utilizá-lo tanto assim, ta aí só por demonstração mesmo.
+Faça um arquivo de lotes (.bat) com essas três linhas:
+pushd "Pasta onde está instalado o programa emefpedro"
+python -m streamlit run emefpedro.py
+pause
+
+Talvez faça depois uma automatização na instalação e execução do mesmo, não acho que as pessoas vão utilizá-lo tanto assim, ta aí só por demonstração mesmo.
 
 Bom trabalho amigos!
