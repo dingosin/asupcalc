@@ -8,52 +8,33 @@ from docx.shared import Pt, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from io import BytesIO
 
-# --- CONFIGURAÇÕES DE ESTILO (PALETA AZUL COM CAMPOS DESTACADOS) ---
+# --- CONFIGURAÇÕES DE ESTILO (PALETA AZUL) ---
 st.set_page_config(page_title="Gestão EMEF Pedro Caminoto", layout="wide")
 
 st.markdown("""
     <style>
-    /* Fundo geral e abas */
     .stApp { background-color: #f4f7f9; }
     .stTabs [data-baseweb="tab-list"] { background-color: #004a99; padding: 15px 20px 0px 20px; border-radius: 12px; gap: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
     .stTabs [data-baseweb="tab"] { height: 60px; color: rgba(255, 255, 255, 0.7) !important; background-color: transparent !important; font-size: 16px; font-weight: 500; transition: all 0.3s ease; padding: 0 15px; }
     .stTabs [data-baseweb="tab"]:hover { color: #ffffff !important; background-color: rgba(255, 255, 255, 0.1) !important; transform: translateY(-2px); }
     .stTabs [aria-selected="true"] { color: #ffffff !important; background-color: transparent !important; border-bottom: 4px solid #ffffff !important; font-weight: 700 !important; }
-    
-    /* Card de Conteúdo */
     div[data-testid="stVerticalBlock"] > div.stVerticalBlock { background-color: white; padding: 30px; border-radius: 0 0 15px 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 1px solid #e0e6ed; margin-top: -10px; }
-
-    /* --- ESTILIZAÇÃO DOS CAMPOS DE ENTRADA (MUDANÇA SOLICITADA) --- */
-    /* Campos de Texto, Data e Seleção */
-    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="popover"], .stMultiSelect {
-        background-color: #eef4ff !important; /* Azul muito claro para contraste */
-        border-radius: 8px !important;
-        border: 1px solid #c2d6ff !important; /* Borda suave azul */
-    }
     
-    /* Estilo interno do input */
-    input, select, textarea {
+    /* Estilo dos campos de entrada */
+    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="popover"], .stMultiSelect {
         background-color: #eef4ff !important;
-        color: #002d5c !important; /* Texto azul escuro para leitura */
+        border-radius: 8px !important;
+        border: 1px solid #c2d6ff !important;
     }
+    input, select, textarea { background-color: #eef4ff !important; color: #002d5c !important; }
 
-    /* Borda de Destaque ao clicar/focar no campo */
-    div[data-baseweb="input"]:focus-within, div[data-baseweb="select"]:focus-within {
-        border: 2px solid #004a99 !important;
-        box-shadow: 0 0 5px rgba(0, 74, 153, 0.2) !important;
-    }
-
-    /* Botões */
     div.stButton > button { background-color: #0056b3; color: white; border-radius: 8px; border: none; padding: 8px 25px; font-weight: 600; transition: 0.2s; }
     div.stButton > button:hover { background-color: #003d80; color: white; }
     .btn-excluir button { background-color: #bd2130 !important; }
-
-    /* Expanders */
     .stExpander { border: 1px solid #dee2e6 !important; background-color: #fafbfc !important; border-radius: 10px !important; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- BANCO DE DADOS ---
 DB_FILE = "dados_professores.json"
 HIST_FILE = "historico_lotes.json"
 
@@ -68,7 +49,6 @@ def save_data(file, data):
 if 'profs' not in st.session_state: st.session_state.profs = load_data(DB_FILE)
 if 'lotes' not in st.session_state: st.session_state.lotes = load_data(HIST_FILE)
 
-# --- FUNÇÃO GERADORA DE DOCX ---
 def add_styled_text(cell, text, bold=False, size=8):
     paragraph = cell.paragraphs[0] if cell.paragraphs else cell.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -163,10 +143,10 @@ with tabs[0]:
             with st.expander(f"📅 {d}"):
                 cols = st.columns(4)
                 agenda_nova[d] = {
-                    "HTPC": [cols[0].text_input("HTPC Ini", key=f"hi_{d}"), cols[0].text_input("HTPC Fim", key=f"hf_{d}")],
-                    "HSP1": [cols[1].text_input("HSP Ini", key=f"h1i_{d}"), cols[1].text_input("HSP Fim", key=f"h1f_{d}")],
-                    "HSP2": [cols[2].text_input("HSP Ini", key=f"h2i_{d}"), cols[2].text_input("HSP Fim", key=f"h2f_{d}")],
-                    "HE": [cols[3].text_input("HE Ini", key=f"hei_{d}"), cols[3].text_input("HE Fim", key=f"hef_{d}")]
+                    "HTPC": [cols[0].text_input("HTPC Ini", key=f"cad_hi_{d}"), cols[0].text_input("HTPC Fim", key=f"cad_hf_{d}")],
+                    "HSP1": [cols[1].text_input("HSP Ini", key=f"cad_h1i_{d}"), cols[1].text_input("HSP Fim", key=f"cad_h1f_{d}")],
+                    "HSP2": [cols[2].text_input("HSP Ini", key=f"cad_h2i_{d}"), cols[2].text_input("HSP Fim", key=f"cad_h2f_{d}")],
+                    "HE": [cols[3].text_input("HE Ini", key=f"cad_hei_{d}"), cols[3].text_input("HE Fim", key=f"cad_hef_{d}")]
                 }
         if st.form_submit_button("SALVAR CADASTRO"):
             if nome:
@@ -174,7 +154,7 @@ with tabs[0]:
                 save_data(DB_FILE, st.session_state.profs); st.success(f"Cadastrado!")
             else: st.error("Insira o nome.")
 
-# 2. ABA EDITAR
+# 2. ABA EDITAR (CHAVES EXCLUSIVAS COM PREFIXO 'edit_')
 with tabs[1]:
     st.subheader("Manutenção de Dados")
     prof_nome = st.selectbox("Selecione o Professor", [""] + list(st.session_state.profs.keys()))
@@ -187,16 +167,18 @@ with tabs[1]:
             for d in ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]:
                 with st.expander(f"Editar {d}"):
                     cols = st.columns(4); h = p['agenda'].get(d, {"HTPC":["",""],"HSP1":["",""],"HSP2":["",""],"HE":["",""]})
+                    # PREFIXO 'edit_' ADICIONADO PARA EVITAR CONFLITO DE CHAVES
                     e_agenda[d] = {
-                        "HTPC": [cols[0].text_input("HTPC Ini", value=h['HTPC'][0], key=f"ehi_{d}"), cols[0].text_input("HTPC Fim", value=h['HTPC'][1], key=f"ehf_{d}")],
-                        "HSP1": [cols[1].text_input("HSP Ini", value=h['HSP1'][0], key=f"eh1i_{d}"), cols[1].text_input("HSP Fim", value=h['HSP1'][1], key=f"eh1f_{d}")],
-                        "HSP2": [cols[2].text_input("HSP Ini", value=h['HSP2'][0], key=f"eh2i_{d}"), cols[2].text_input("HSP Fim", value=h['HSP2'][1], key=f"eh2f_{d}")],
-                        "HE": [cols[3].text_input("HE Ini", value=h['HE'][0], key=f"ehei_{d}"), cols[3].text_input("HE Fim", value=h['HE'][1], key=f"hef_{d}")]
+                        "HTPC": [cols[0].text_input("HTPC Ini", value=h['HTPC'][0], key=f"edit_hi_{d}"), cols[0].text_input("HTPC Fim", value=h['HTPC'][1], key=f"edit_hf_{d}")],
+                        "HSP1": [cols[1].text_input("HSP Ini", value=h['HSP1'][0], key=f"edit_h1i_{d}"), cols[1].text_input("HSP Fim", value=h['HSP1'][1], key=f"edit_h1f_{d}")],
+                        "HSP2": [cols[2].text_input("HSP Ini", value=h['HSP2'][0], key=f"edit_h2i_{d}"), cols[2].text_input("HSP Fim", value=h['HSP2'][1], key=f"edit_h2f_{d}")],
+                        "HE": [cols[3].text_input("HE Ini", value=h['HE'][0], key=f"edit_hei_{d}"), cols[3].text_input("HE Fim", value=h['HE'][1], key=f"edit_hef_{d}")]
                     }
             if st.form_submit_button("ATUALIZAR DADOS"):
                 if enome != prof_nome: del st.session_state.profs[prof_nome]
                 st.session_state.profs[enome] = {"nome":enome, "rg":erg, "situacao":esit, "disciplina":edisc, "categoria":ecat, "agenda":e_agenda, "ativo":eativo}
                 save_data(DB_FILE, st.session_state.profs); st.success("Atualizado!"); st.rerun()
+        
         st.markdown('<div class="btn-excluir">', unsafe_allow_html=True)
         if st.button("EXCLUIR PROFESSOR"):
             del st.session_state.profs[prof_nome]; save_data(DB_FILE, st.session_state.profs); st.rerun()
@@ -205,8 +187,9 @@ with tabs[1]:
 # 3. ABA GERAR RELATÓRIO
 with tabs[2]:
     st.subheader("Geração de Lote Mensal")
-    nlote = st.text_input("Identificação do Lote"); r1, r2 = st.columns(2); d1 = r1.date_input("Início do Período", value=datetime(2026, 3, 15), format="DD/MM/YYYY"); d2 = r2.date_input("Fim do Período", value=datetime(2026, 4, 13), format="DD/MM/YYYY")
-    st.write("---"); profs_ativos = {k: v for k, v in st.session_state.profs.items() if v.get('ativo', True)}
+    nlote = st.text_input("Identificação do Lote"); r1, r2 = st.columns(2); d1 = r1.date_input("Início", datetime(2026, 3, 15), format="DD/MM/YYYY"); d2 = r2.date_input("Fim", datetime(2026, 4, 13), format="DD/MM/YYYY")
+    st.write("---")
+    profs_ativos = {k: v for k, v in st.session_state.profs.items() if v.get('ativo', True)}
     def toggle_all():
         for pn in profs_ativos.keys(): st.session_state[f"sel_{pn}"] = st.session_state.all_active
     st.checkbox("Selecionar todos os professores ativos", key="all_active", on_change=toggle_all)
@@ -216,7 +199,7 @@ with tabs[2]:
     if st.button("GERAR RELATÓRIOS"):
         if nlote and p_nomes_lote:
             lid = f"{nlote}_{datetime.now().strftime('%Y%m%d%H%M%S')}"; st.session_state.lotes[lid] = {"nome":nlote, "inicio":str(d1), "fim":str(d2), "inicio_f":d1.strftime("%d/%m/%Y"), "fim_f":d2.strftime("%d/%m/%Y"), "professores":{n: profs_ativos[n] for n in p_nomes_lote}}
-            save_data(HIST_FILE, st.session_state.lotes); st.success("Lote pronto no Histórico!")
+            save_data(HIST_FILE, st.session_state.lotes); st.success("Lote pronto!")
 
 # 4. ABA HISTÓRICO
 with tabs[3]:
